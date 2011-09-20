@@ -11,12 +11,7 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        chain_provider:
-            providers: [in_memory, user_db]
-        in_memory:
-            users:
-                foo: { password: test }
-        user_db:
+        main:
             entity: { class: Fanta\ManagerBundle\Entity\User, property: name }
 
     firewalls:
@@ -26,9 +21,6 @@ security:
 
         secured_area:
             pattern:    ^/fantalineup
-            #form_login:
-            #    check_path: /demo/secured/login_check
-            #    login_path: /demo/secured/login
             stateless: true
             logout:
                 path:   /fantalineup/logout
@@ -36,9 +28,6 @@ security:
             anonymous: ~
             http_basic:
                 realm: "Secured FantaManager Area"
-                provider: user_db
 
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
         - { path: ^/fantalineup, roles: ROLE_USER }
