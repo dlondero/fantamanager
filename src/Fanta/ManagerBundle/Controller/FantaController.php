@@ -128,7 +128,7 @@ class FantaController extends Controller
             $query = $repository->createQueryBuilder('u')
                 ->select('u, p, v')
                 ->leftJoin('u.player', 'p')
-                ->leftJoin('p.votes', 'v')
+                ->leftJoin('p.votes', 'v', 'WITH', 'v.round = :round')
                 ->where('u.fanta_team = :id')
                 ->andWhere('u.round = :round')
                 ->andWhere('p.role = :role')

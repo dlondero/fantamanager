@@ -267,4 +267,32 @@ class FantaLineUpController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     * Calculate fantavotes.
+     *
+     * @Route("/calculate/{id}", name="fantalineup_calculate")
+     * @Template()
+     */
+    public function calculateFantaVotesAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $repository = $em->getRepository('FantaManagerBundle:PlayerVote');
+        
+        $playerVotes = $repository->findBy(array('round' => $id, 'fantavote' => null));
+
+        if (!$playerVotes) {
+            throw new \Exception('No fantaVotes to calculate.');
+        }
+        
+        foreach ($playerVotes as $playerVote) {
+            $playerVote->setFantaVote($playerVote->calculateFantaVote());
+            $em->persist($playerVote);
+        }
+        
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('fanta_manager_fanta_round', array('id' => $id)));
+    }
 }
