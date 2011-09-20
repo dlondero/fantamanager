@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Fanta\ManagerBundle\Entity\User
  *
- * @ORM\Table()
+ * @ORM\Table(name="`User`")
  * @ORM\Entity(repositoryClass="Fanta\ManagerBundle\Entity\UserRepository")
  */
 class User implements UserInterface
