@@ -2,6 +2,9 @@ security:
     acl:
         connection: default
 
+    encoders:
+        Fanta\ManagerBundle\Entity\User: plaintext
+
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
