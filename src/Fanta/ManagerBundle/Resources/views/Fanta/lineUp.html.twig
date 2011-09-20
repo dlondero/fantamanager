@@ -1,0 +1,6 @@
+{% for lineUp in fantaLineUp %}
+    {{ lineUp.player.name }}<br />
+    {% if loop.index == 11 %}
+        --------------------<br />
+    {% endif %}
+{% endfor %}<br />

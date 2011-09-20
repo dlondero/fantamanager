@@ -1,0 +1,23 @@
+{% extends 'FantaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    
+    {% for fantaTeam in fantaTeams %}
+        <div>
+            <div style="float:left;margin-right:50px;">
+            <strong>{{ fantaTeam.name }} ({% render "FantaManagerBundle:Fanta:lineUpSchema" with {'id': fantaTeam.id, 'round': round} %})</strong><br />
+
+            Formazione inviata<br />
+            {% render "FantaManagerBundle:Fanta:lineUp" with {'id': fantaTeam.id, 'round': round} %}
+            </div>
+
+            <div style="float:left;">
+            <br />Giocatori scesi in campo<br />
+            {% render "FantaManagerBundle:Fanta:lineUpVotes" with {'id': fantaTeam.id, 'round': round} %}<br />
+            </div>
+
+            <div style="clear:both;">&nbsp;</div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

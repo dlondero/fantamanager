@@ -1,0 +1,15 @@
+{% extends 'FantaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    
+    Ecco l'elenco giocatori per <strong>{{ fantaTeam.name }}</strong><br /><br />
+
+    {% for player in fantaTeamPlayers %}
+        {{ loop.index }} {{ player.role }} {{ player.name }} {{ player.team.name }}<br />
+    {% endfor %}
+
+    <a href="{{ path('fanta_manager_fanta_index') }}">
+        <br />Torna alla home
+    </a>
+
+{% endblock %}

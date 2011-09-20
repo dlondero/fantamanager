@@ -1,0 +1,3 @@
+{% for lineUp in lineUpSchema %}
+    {{ lineUp.rolecount }} {% if not(loop.last) %} - {% endif %} 
+{% endfor %}

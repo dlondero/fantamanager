@@ -1,0 +1,24 @@
+{% extends 'FantaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+    
+    Le rose delle squadre<br />
+    
+    {% for team in fantaTeams %}
+        <a href="{{ path('fanta_manager_fanta_fantateam', { 'id': team.id }) }}">
+            {{ team.name }}<br />
+        </a>
+    {% endfor %}
+    <br />
+
+    Giornate giocate<br />
+
+    {% for round in rounds %}
+        <a href="{{ path('fanta_manager_fanta_round', { 'id': round.id }) }}">
+            {{ loop.index }}
+        </a>
+    {% endfor %}<br /><br />
+    
+    
+
+{% endblock %}
