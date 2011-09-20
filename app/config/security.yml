@@ -12,7 +12,7 @@ security:
 
     providers:
         main:
-            entity: { class: Fanta\ManagerBundle\Entity\User, property: name }
+            entity: { class: FantaManagerBundle:User, property: name }
 
     firewalls:
         dev:
