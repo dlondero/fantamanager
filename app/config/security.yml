@@ -1,38 +1,44 @@
 security:
+    acl:
+        connection: default
+        
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        Fanta\ManagerBundle\Entity\User: plaintext
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        chain_provider:
+            providers: [in_memory, user_db]
         in_memory:
             users:
-                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                foo: { password: test }
+        user_db:
+            entity: { class: Fanta\ManagerBundle\Entity\User, property: name }
 
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
         secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
+            pattern:    ^/fantalineup
+            #form_login:
+            #    check_path: /demo/secured/login_check
+            #    login_path: /demo/secured/login
+            stateless: true
             logout:
-                path:   /demo/secured/logout
-                target: /demo/
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+                path:   /fantalineup/logout
+                target: /
+            anonymous: ~
+            http_basic:
+                realm: "Secured FantaMAnager Area"
+                provider: user_db
 
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+        - { path: ^/fantalineup, roles: ROLE_USER }

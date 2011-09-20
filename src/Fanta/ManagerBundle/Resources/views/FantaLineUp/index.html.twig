@@ -1,0 +1,58 @@
+{% extends 'FantaManagerBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <h1>{{ user.fantaTeam.name }} - Formazione</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Ruolo</th>
+                <th>Nome</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr {% if entity.issubstitute %}style="background-color:#CCC;"{% endif %}>
+                <td>{{ loop.index }}</td>
+                <td>{{ entity.player.role }}</td>
+                <td>{{ entity.player.name }}</td>
+                <td>
+                    <a href="{{ path('fantalineup_edit', { 'id': entity.id }) }}">Modifica</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><br /><br />
+
+    <form action="{{ path('fantalineup_create') }}" method="post" {{ form_enctype(form) }}>
+
+    {{ form_errors(form) }}
+
+    {{ form_label(form.player, 'Giocatore') }}
+    {{ form_errors(form.player) }}
+    {{ form_widget(form.player) }}
+
+    {{ form_label(form.is_substitute, 'Panchinaro') }}
+    {{ form_errors(form.is_substitute) }}
+    {{ form_widget(form.is_substitute) }}
+
+    {{ form_label(form.substitute_priority, 'Ordine panchina') }}
+    {{ form_errors(form.substitute_priority) }}
+    {{ form_widget(form.substitute_priority) }}
+
+    {{ form_rest(form) }}
+
+    <p>
+        <button type="submit">Aggiungi</button>
+    </p>
+</form>
+
+<a href="{{ path('logout') }}">
+                Logout
+            </a>
+
+{% endblock %}
+

@@ -1,0 +1,32 @@
+<h1>{{ user.fantaTeam.name }} - Creazione formazione</h1>
+
+<form action="{{ path('fantalineup_create') }}" method="post" {{ form_enctype(form) }}>
+
+    {{ form_errors(form) }}
+
+    {{ form_label(form.player, 'Giocatore') }}
+    {{ form_errors(form.player) }}
+    {{ form_widget(form.player) }}
+
+    {{ form_label(form.is_substitute, 'Panchinaro') }}
+    {{ form_errors(form.is_substitute) }}
+    {{ form_widget(form.is_substitute) }}
+
+    {{ form_label(form.substitute_priority, 'Ordine panchina') }}
+    {{ form_errors(form.substitute_priority) }}
+    {{ form_widget(form.substitute_priority) }}
+
+    {{ form_rest(form) }}
+
+    <p>
+        <button type="submit">Crea</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('fantalineup') }}">
+            Torna alla formazione
+        </a>
+    </li>
+</ul>

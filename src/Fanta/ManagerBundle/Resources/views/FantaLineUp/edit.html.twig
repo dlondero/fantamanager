@@ -1,0 +1,36 @@
+<h1>FantaLineUp edit</h1>
+
+<form action="{{ path('fantalineup_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    {{ form_errors(edit_form) }}
+
+    {{ form_label(edit_form.player, 'Giocatore') }}
+    {{ form_errors(edit_form.player) }}
+    {{ form_widget(edit_form.player) }}
+
+    {{ form_label(edit_form.is_substitute, 'Panchinaro') }}
+    {{ form_errors(edit_form.is_substitute) }}
+    {{ form_widget(edit_form.is_substitute) }}
+
+    {{ form_label(edit_form.substitute_priority, 'Ordine panchina') }}
+    {{ form_errors(edit_form.substitute_priority) }}
+    {{ form_widget(edit_form.substitute_priority) }}
+
+    {{ form_rest(edit_form) }}
+    <p>
+        <button type="submit">Modifica</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('fantalineup') }}">
+            Torna alla formazione
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('fantalineup_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
