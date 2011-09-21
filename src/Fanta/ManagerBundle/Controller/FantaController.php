@@ -59,6 +59,8 @@ class FantaController extends Controller
 
         $query = $roundRepository->createQueryBuilder('r')
             ->where('r.is_played = 1')
+            ->andWhere('r.id = :round')
+            ->setParameter('round', $id)
             ->addOrderBy('r.datetime', 'DESC')
             ->setMaxResults(1)
             ->getQuery();
