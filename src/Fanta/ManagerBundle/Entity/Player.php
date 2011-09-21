@@ -207,4 +207,38 @@ class Player
     {
         return $this->votes;
     }
+    
+    public function calculateIndexValue()
+    {
+        $indexValue = 0;
+        $voteTotal = 0;
+        $fantaVoteTotal = 0;
+        $bonus = 0;
+        $malus = 0;
+        
+        if (count($this->votes)) {
+            foreach ($this->votes as $vote) {
+                $voteTotal += $vote->getVote();
+                $fantaVoteTotal += $vote->getFantavote();
+                if ($vote->getVote() < 6) {
+                    $malus += 1;
+                } else {
+                    $bonus += 1;
+                }
+            }
+
+            $avgVote = $voteTotal / count($this->votes);
+            $avgFantaVote = $fantaVoteTotal / count($this->votes);
+
+            $indexValue = $avgVote + $avgFantaVote;
+
+            if ($bonus > $malus) {
+                $indexValue += 1;
+            } else if ($malus > $bonus) {
+                $indexValue -= 1;
+            }
+        }
+        
+        return number_format($indexValue, 2, '.', '');
+    }
 }
