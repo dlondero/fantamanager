@@ -1,0 +1,19 @@
+{% set total = 0 %}
+
+{% for player in fantaBestLineUpP %}
+    {{ player.name }} {% for vote in player.votes %}{{ vote.fantavote }}{% set total = total + vote.fantavote %}{% endfor %}<br />
+{% endfor %}
+
+{% for player in fantaBestLineUpD %}
+    {{ player.name }} {% for vote in player.votes %}{{ vote.fantavote }}{% set total = total + vote.fantavote %}{% endfor %}<br />
+{% endfor %}
+
+{% for player in fantaBestLineUpC %}
+    {{ player.name }} {% for vote in player.votes %}{{ vote.fantavote }}{% set total = total + vote.fantavote %}{% endfor %}<br />
+{% endfor %}
+
+{% for player in fantaBestLineUpA %}
+    {{ player.name }} {% for vote in player.votes %}{{ vote.fantavote }}{% set total = total + vote.fantavote %}{% endfor %}<br />
+{% endfor %}<br />
+
+Totale: {{ total }}

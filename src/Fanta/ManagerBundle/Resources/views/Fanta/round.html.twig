@@ -11,9 +11,14 @@
             {% render "FantaManagerBundle:Fanta:lineUp" with {'id': fantaTeam.id, 'round': round} %}
             </div>
 
-            <div style="float:left;">
+            <div style="float:left;margin-right:50px;">
             <br />Giocatori scesi in campo<br />
             {% render "FantaManagerBundle:Fanta:lineUpVotes" with {'id': fantaTeam.id, 'round': round} %}<br />
+            </div>
+
+            <div style="float:left;">
+            <br />Facevi meglio così<br />
+            {% render "FantaManagerBundle:Fanta:lineUpBestVotes" with {'id': fantaTeam.id, 'round': round} %}<br />
             </div>
 
             <div style="clear:both;">&nbsp;</div>
