@@ -20,13 +20,14 @@ security:
 
         secured_area:
             pattern:    ^/fantalineup
-            stateless: true
+            anonymous: ~
+            form_login:
+                login_path:  /login
+                check_path:  /fantalineup/login_check
             logout:
                 path:   /fantalineup/logout
                 target: /
-            anonymous: ~
-            http_basic:
-                realm: "Secured FantaManager Area"
 
     access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/fantalineup, roles: ROLE_USER }
