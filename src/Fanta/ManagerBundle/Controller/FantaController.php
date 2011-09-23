@@ -59,6 +59,8 @@ class FantaController extends Controller
 
         $query = $roundRepository->createQueryBuilder('r')
             ->where('r.is_played = 1')
+            ->andWhere('r.id = :round')
+            ->setParameter('round', $id)
             ->addOrderBy('r.datetime', 'DESC')
             ->setMaxResults(1)
             ->getQuery();
@@ -146,12 +148,56 @@ class FantaController extends Controller
             $$name = $query->getResult();
         }
         
-        $players = array_merge($fantaLineUpP, $fantaLineUpD, $fantaLineUpC, $fantaLineUpA);
-
         return $this->render('FantaManagerBundle:Fanta:lineUpVotes.html.twig', array('fantaLineUpP' => $fantaLineUpP, 
                                                                                      'fantaLineUpD' => $fantaLineUpD,
                                                                                      'fantaLineUpC' => $fantaLineUpC,
                                                                                      'fantaLineUpA' => $fantaLineUpA));
+    }
+    
+    public function lineUpBestVotesAction($id, $round)
+    {
+        $repository = $this->getDoctrine()->getRepository('FantaManagerBundle:FantaLineUp');
+
+        $query = $repository->createQueryBuilder('u')
+            ->select('p.role, COUNT(p.role) AS rolecount')
+            ->leftJoin('u.player', 'p')
+            ->where('u.fanta_team = :id')
+            ->andWhere('u.round = :round')
+            ->andWhere('u.is_substitute = 0')
+            ->setParameter('id', $id)
+            ->setParameter('round', $round)
+            ->addOrderBy('p.role', 'DESC')
+            ->addGroupBy('p.role')
+            ->getQuery();
+        
+        $lineUpSchema = $query->getResult();
+        
+        $repository = $this->getDoctrine()->getRepository('FantaManagerBundle:Player');
+        
+        foreach ($lineUpSchema as $zone) {
+            $query = $repository->createQueryBuilder('p')
+                ->select('p, v')
+                ->leftJoin('p.fantaTeam', 'f')
+                ->leftJoin('p.votes', 'v', 'WITH', 'v.round = :round')
+                ->where('f.id = :id')
+                ->andWhere('p.role = :role')
+                ->andWhere('v.fantavote IS NOT NULL')
+                ->setParameter('id', $id)
+                ->setParameter('round', $round)
+                ->setParameter('role', $zone['role'])
+                ->addOrderBy('v.fantavote', 'DESC')
+                ->setMaxResults($zone['rolecount'])
+                ->getQuery();
+            
+            $name = 'fantaBestLineUp'.$zone['role'];
+            
+            $$name = $query->getResult();
+        }
+        
+        return $this->render('FantaManagerBundle:Fanta:lineUpBestVotes.html.twig', array('fantaBestLineUpP' => $fantaBestLineUpP, 
+                                                                                         'fantaBestLineUpD' => $fantaBestLineUpD,
+                                                                                         'fantaBestLineUpC' => $fantaBestLineUpC,
+                                                                                         'fantaBestLineUpA' => $fantaBestLineUpA));
     }
     
     public function lineUpSchemaAction($id, $round)

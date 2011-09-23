@@ -295,4 +295,32 @@ class FantaLineUpController extends Controller
         
         return $this->redirect($this->generateUrl('fanta_manager_fanta_round', array('id' => $id)));
     }
+    
+    /**
+     * Calculate fantavotes.
+     *
+     * @Route("/calculateIndex/{id}", name="fantalineup_calculate_index")
+     * @Template()
+     */
+    public function calculateIndexValueAction($id)
+    {   
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $repository = $em->getRepository('FantaManagerBundle:Player');
+        
+        $players = $repository->findAll();
+
+        if (!$players) {
+            throw new \Exception('No players found.');
+        }
+        
+        foreach ($players as $player) {
+            $player->setIndexValue($player->calculateIndexValue());
+            $em->persist($player);
+        }
+        
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('fanta_manager_fanta_round', array('id' => $id)));  
+    }
 }
