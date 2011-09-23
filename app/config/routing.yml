@@ -1,5 +1,12 @@
 logout:
     pattern:   /fantalineup/logout
+
+login:
+    pattern:   /login
+    defaults:  { _controller: FantaManagerBundle:Security:login }
+    
+login_check:
+    pattern:   /fantalineup/login_check
     
 FantaManagerBundle:
     resource: "@FantaManagerBundle/Controller/"
