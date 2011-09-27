@@ -390,16 +390,18 @@ class PlayerVote
     {
         $fantaVote = $this->getVote();
         
-        $fantaVote = $fantaVote - (self::MALUS_AMMONIZIONE * $this->getAmmonizione());
-        $fantaVote = $fantaVote - (self::MALUS_ESPULSIONE * $this->getEspulsione());
-        $fantaVote = $fantaVote - (self::MALUS_GOL_SUBITO * $this->getGolSubito());
-        $fantaVote = $fantaVote - (self::MALUS_AUTORETE * $this->getAutorete());
-        $fantaVote = $fantaVote - (self::MALUS_RIGORE_SBAGLIATO * $this->getRigoreSbagliato());
-        
-        $fantaVote = $fantaVote + (self::BONUS_ASSIST * $this->getAssist());
-        $fantaVote = $fantaVote + (self::BONUS_GOL_FATTO * $this->getGolFatto());
-        $fantaVote = $fantaVote + (self::BONUS_RIGORE_SEGNATO * $this->getRigoreSegnato());
-        $fantaVote = $fantaVote + (self::BONUS_RIGORE_PARATO * $this->getRigoreParato());
+        if (!is_null($fantaVote)) {
+            $fantaVote = $fantaVote - (self::MALUS_AMMONIZIONE * $this->getAmmonizione());
+            $fantaVote = $fantaVote - (self::MALUS_ESPULSIONE * $this->getEspulsione());
+            $fantaVote = $fantaVote - (self::MALUS_GOL_SUBITO * $this->getGolSubito());
+            $fantaVote = $fantaVote - (self::MALUS_AUTORETE * $this->getAutorete());
+            $fantaVote = $fantaVote - (self::MALUS_RIGORE_SBAGLIATO * $this->getRigoreSbagliato());
+
+            $fantaVote = $fantaVote + (self::BONUS_ASSIST * $this->getAssist());
+            $fantaVote = $fantaVote + (self::BONUS_GOL_FATTO * $this->getGolFatto());
+            $fantaVote = $fantaVote + (self::BONUS_RIGORE_SEGNATO * $this->getRigoreSegnato());
+            $fantaVote = $fantaVote + (self::BONUS_RIGORE_PARATO * $this->getRigoreParato());
+        }
         
         return $fantaVote;
     }
