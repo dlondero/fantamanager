@@ -84,4 +84,10 @@ class PlayerVoteTest extends \PHPUnit_Framework_TestCase
         $this->playerVote->setGolFatto(1);
         $this->assertEquals(9, $this->playerVote->calculateFantaVote());
     }
+    
+    public function testSenzaVoto()
+    {
+        $this->playerVote->setVote(null);
+        $this->assertNull($this->playerVote->calculateFantaVote());
+    }
 }
