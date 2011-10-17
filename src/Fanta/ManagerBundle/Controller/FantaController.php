@@ -140,6 +140,7 @@ class FantaController extends Controller
                 ->setParameter('role', $zone['role'])
                 ->addOrderBy('u.is_substitute', 'ASC')
                 ->addOrderBy('u.substitute_priority', 'ASC')
+                ->addOrderBy('u.id', 'ASC')
                 ->setMaxResults($zone['rolecount'])
                 ->getQuery();
             
