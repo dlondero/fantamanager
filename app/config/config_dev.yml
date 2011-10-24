@@ -22,6 +22,12 @@ monolog:
 assetic:
     use_controller: true
 
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    username:  %mailer_user%
+    password:  %mailer_password%
+
 parameters:
     mailing_from: formazioni@fanta.spotmusic.net
     mailing_to: daniel.londero@gmail.com
