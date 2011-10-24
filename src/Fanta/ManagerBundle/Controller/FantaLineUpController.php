@@ -323,4 +323,55 @@ class FantaLineUpController extends Controller
         
         return $this->redirect($this->generateUrl('fanta_manager_fanta_round', array('id' => $id)));  
     }
+    
+    /**
+     * Sends lineup's email to ML
+     *
+     * @Route("/send", name="fantalineup_send")
+     * @Template()
+     * @Method("post")
+     */
+    public function sendAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $roundRepository = $this->getDoctrine()->getRepository('FantaManagerBundle:Round');
+
+        $query = $roundRepository->createQueryBuilder('r')
+            ->where('r.is_played = 0')
+            ->addOrderBy('r.datetime', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery();
+        
+        $round = $query->getSingleResult();
+        
+        $repository = $this->getDoctrine()->getRepository('FantaManagerBundle:FantaLineUp');
+
+        $query = $repository->createQueryBuilder('u')
+            ->leftJoin('u.player', 'p')
+            ->where('u.fanta_team = :id')
+            ->andWhere('u.round = :round')
+            ->setParameter('id', $user->getFantaTeam()->getId())
+            ->setParameter('round', $round->getId())
+            ->orderBy('u.is_substitute', 'ASC')
+            ->addOrderBy('p.role', 'DESC')
+            ->addOrderBy('u.substitute_priority', 'ASC')
+            ->getQuery();
+
+        $entities = $query->getResult();
+        
+        $ourRound = $round->getId() - 1;
+        
+        $message = \Swift_Message::newInstance()
+            ->setSubject('['. $user->getFantaTeam()->getName() .'] Formazione '. $ourRound .'a giornata')
+            ->setFrom($this->container->getParameter('mailing_from'))
+            ->setTo($this->container->getParameter('mailing_to'))
+            ->setBody($this->renderView('FantaManagerBundle:FantaLineUp:lineup.txt.twig', array('entities' => $entities, 'user' => $user, 'round' => $round)))
+        ;
+        $this->get('mailer')->send($message);
+
+        $this->get('session')->setFlash('notice', 'Formazione inviata correttamente. Controlla comunque la ML!');
+        
+        return $this->redirect($this->generateUrl('fantalineup'));
+    }
 }

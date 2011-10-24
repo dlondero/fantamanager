@@ -21,3 +21,7 @@ monolog:
 
 assetic:
     use_controller: true
+
+parameters:
+    mailing_from: formazioni@fanta.spotmusic.net
+    mailing_to: daniel.londero@gmail.com
