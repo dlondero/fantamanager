@@ -4,6 +4,12 @@
 
     <h1>{{ user.fantaTeam.name }} - Formazione</h1>
 
+    {% if app.session.hasFlash('notice') %}
+        <div class="flash-notice">
+            {{ app.session.flash('notice') }}
+        </div>
+    {% endif %}
+
     <table class="records_list">
         <thead>
             <tr>
@@ -47,6 +53,12 @@
 
     <p>
         <button type="submit">Aggiungi</button>
+    </p>
+</form>
+
+<form action="{{ path('fantalineup_send') }}" method="post">
+    <p>
+        <button type="submit">Invia formazione</button>
     </p>
 </form>
 

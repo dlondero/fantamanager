@@ -1,0 +1,10 @@
+{{ user.fantaTeam.name }} ({% render "FantaManagerBundle:Fanta:lineUpSchema" with {'id': user.fantaTeam.id, 'round': round} %})
+
+Titolari:
+{% for entity in entities %}
+{{ loop.index }} {{ entity.player.role }} {{ entity.player.name }}
+{% if loop.index == 11 %}
+
+Panchina:
+{% endif %}
+{% endfor %}
