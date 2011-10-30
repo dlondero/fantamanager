@@ -363,7 +363,7 @@ class FantaLineUpController extends Controller
         $ourRound = $round->getId() - 1;
         
         $message = \Swift_Message::newInstance()
-            ->setSubject('['. $user->getFantaTeam()->getName() .'] Formazione '. $ourRound .'a giornata')
+            ->setSubject($user->getFantaTeam()->getName() .' - Formazione '. $ourRound .'a giornata')
             ->setFrom($this->container->getParameter('mailing_from'))
             ->setTo($this->container->getParameter('mailing_to'))
             ->setBody($this->renderView('FantaManagerBundle:FantaLineUp:lineup.txt.twig', array('entities' => $entities, 'user' => $user, 'round' => $round)))
