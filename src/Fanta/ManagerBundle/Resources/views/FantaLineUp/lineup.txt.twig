@@ -2,7 +2,7 @@
 
 Titolari:
 {% for entity in entities %}
-{{ loop.index }} {{ entity.player.role }} {{ entity.player.name }}
+{{ loop.index }} {{ entity.player.role }} {{ entity.player.name|raw }}
 {% if loop.index == 11 %}
 
 Panchina:
