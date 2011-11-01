@@ -1,4 +1,4 @@
-{{ user.fantaTeam.name }} ({% render "FantaManagerBundle:Fanta:lineUpSchema" with {'id': user.fantaTeam.id, 'round': round} %})
+{{ user.fantaTeam.name|raw }} ({% render "FantaManagerBundle:Fanta:lineUpSchema" with {'id': user.fantaTeam.id, 'round': round} %})
 
 Titolari:
 {% for entity in entities %}
