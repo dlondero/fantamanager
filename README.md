@@ -1,7 +1,6 @@
 FantaManager
 ============
 
-Version 0.1.14
-Fixed team name in email's template
+Version 0.1.15
 
 Fanta manager tool.
