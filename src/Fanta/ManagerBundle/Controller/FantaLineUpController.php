@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Fanta\ManagerBundle\Entity\PlayerVote;
 use Fanta\ManagerBundle\Entity\FantaLineUp;
 use Fanta\ManagerBundle\Entity\Round;
 use Fanta\ManagerBundle\Form\FantaLineUpType;
@@ -373,5 +374,53 @@ class FantaLineUpController extends Controller
         $this->get('session')->setFlash('notice', 'Formazione inviata correttamente. Controlla comunque la ML!');
         
         return $this->redirect($this->generateUrl('fantalineup'));
+    }
+    
+    /**
+     * 6 d'ufficio per le partite rinviate.
+     *
+     * @Route("/office/{round}/{team}", name="fantalineup_office")
+     * @Template()
+     */
+    public function setOfficeVotesAction($round, $team)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $roundRepository = $em->getRepository('FantaManagerBundle:Round');
+        $aRound = $roundRepository->findOneBy(array('id' => $round));
+        
+        if (!$aRound) {
+            throw new \Exception('No round found.');
+        }
+        
+        $repository = $em->getRepository('FantaManagerBundle:Player');
+        
+        $players = $repository->findBy(array('team' => $team));
+
+        if (!$players) {
+            throw new \Exception('No players found.');
+        }
+        
+        foreach ($players as $player) {
+            $playerVote = new PlayerVote();
+            $playerVote->setPlayer($player);
+            $playerVote->setRound($aRound);
+            $playerVote->setVote('6');
+            $playerVote->setFantavote('6');
+            $playerVote->setGolFatto('0');
+            $playerVote->setGolSubito('0');
+            $playerVote->setRigoreParato('0');
+            $playerVote->setRigoreSbagliato('0');
+            $playerVote->setRigoreSegnato('0');
+            $playerVote->setAutorete('0');
+            $playerVote->setAmmonizione('0');
+            $playerVote->setEspulsione('0');
+            $playerVote->setAssist('0');
+            $em->persist($playerVote);
+        }
+        
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('fantalineup', array()));
     }
 }
